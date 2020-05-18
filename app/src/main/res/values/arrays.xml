@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genre">
+        <item>로맨스</item>
+        <item>추리</item>
+        <item>판타지</item>
+        <item>스릴러</item>
+        <item>과학</item>
+        <item>무협</item>
+        <item>만화</item>
+    </string-array>
+</resources>
