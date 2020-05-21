@@ -25,10 +25,33 @@ public class DBHelper extends SQLiteOpenHelper {
                 "join_date date, " +
                 "rent_num number(1), " +
                 "fav_genre varchar2)";
-
+//        String BookSQL = "create table BOOKS (" +
+//                "book_id varchar2 primary key," +
+//                "ISBN varchar2,"+
+//                "title varchar2 ,"+
+//                "author varchar2 ,"+
+//                "genre varchar2 , " +
+//                "publisher varchar2," +
+//                "price number)";
+//        String BurrowSQL = "create table BURROW (" +
+//                "rent_num integer primary key autoincrement, " +
+//                "rent_date date ," +
+//                "return_date date ," +
+//                "late_fee number)";
+////        String RentSQL= "create table RENT(" +
+////        )
+//        String ExSQL = "create table EX_USERS(" +
+//                "ex_num number primary key autoincrement," +
+//                "exit_date date," +
+//                "user_id references USERS(user_id) on delete set null"+
+//                ")";
 
         db.execSQL(UserSQL);
-    }
+//        db.execSQL(BookSQL);
+//        db.execSQL(BurrowSQL);
+////        db.execSQL(RentSQL);
+//        db.execSQL(ExSQL);
+        }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
