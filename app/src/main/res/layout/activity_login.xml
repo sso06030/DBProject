@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="도서대여"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="25dp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"/>
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="라이브러리"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="18dp"
                 android:textStyle="bold"/>
 

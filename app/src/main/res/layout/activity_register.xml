@@ -67,6 +67,20 @@
             <EditText
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
+                android:hint="이름"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:id="@+id/nameText"
+                android:drawableStart="@drawable/ic_face_black_24dp"
+                android:drawableLeft="@drawable/ic_face_black_24dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
                 android:hint="이메일"
                 android:layout_gravity="center"
                 android:padding="10dp"
@@ -75,6 +89,20 @@
                 android:id="@+id/emailText"
                 android:drawableStart="@drawable/ic_mail_outline_black_24dp"
                 android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"/>
+
+            <EditText
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:hint="전화번호"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:id="@+id/phoneText"
+                android:drawableStart="@drawable/ic_call_black_24dp"
+                android:drawableLeft="@drawable/ic_call_black_24dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorPrimary"/>
 
