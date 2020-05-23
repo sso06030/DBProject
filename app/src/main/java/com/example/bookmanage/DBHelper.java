@@ -17,9 +17,9 @@ public class DBHelper extends SQLiteOpenHelper {
         String UserSQL = "create table USERS (" +
                 "user_id varchar2 primary key," +
                 "pw varchar2 not null," +
-//                "name not null," +
+                "name varchar2 not null," +
                 "birthday date," +
-                "gender char(1), " +
+                "gender varchar2, " +
                 "mail varchar2, " +
                 "phone number, "+
                 "join_date date, " +

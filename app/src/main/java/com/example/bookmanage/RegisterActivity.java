@@ -38,7 +38,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         final EditText idView = (EditText) findViewById(R.id.idText);
         final EditText pwView = (EditText) findViewById(R.id.passwordText);
+        final EditText nameView = (EditText) findViewById(R.id.nameText);
         final EditText emailView = (EditText) findViewById(R.id.emailText);
+        final EditText pnumView = (EditText) findViewById(R.id.phoneText);
         final RadioGroup rg = (RadioGroup) findViewById(R.id.genderGroup);
         final Spinner genre_spinner = (Spinner) findViewById(R.id.genreSpinner);
 
@@ -48,7 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String id = idView.getText().toString();
                 String pw = pwView.getText().toString();
+                String name = nameView.getText().toString();
                 String email = emailView.getText().toString();
+                String pnum = pnumView.getText().toString();
                 int gender_id = rg.getCheckedRadioButtonId();
                 RadioButton rb = (RadioButton) findViewById(gender_id);
 
@@ -59,41 +63,49 @@ public class RegisterActivity extends AppCompatActivity {
                 String gender = rb.getText().toString();
                 String genre = genre_spinner.getSelectedItem().toString();
 
-                DBHelper user = new DBHelper(getApplicationContext());
-                SQLiteDatabase database = user.getReadableDatabase();
-                Cursor cursor = user.getReadableDatabase().rawQuery("SELECT user_id FROM USERS",null);
-                boolean checkDB = false;
-                while (cursor.moveToNext()){
-                    if (cursor.getString(0).equals(id)){
-                        checkDB = true;
-                        break;
-                    }
-                }
-                if (checkDB) {
-                        Toast t = Toast.makeText(RegisterActivity.this, "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT);
-                        t.show();
+
+                if ( id.equals("") || pw.equals("") || name.equals("")) {
+                    Toast t = Toast.makeText(RegisterActivity.this, "입력되지 않은 정보가 있습니다.", Toast.LENGTH_SHORT);
+                    t.show();
                 }
                 else{
-                    if ( id.equals("") ) {
-                        Toast t = Toast.makeText(RegisterActivity.this, "아이디를 입력하십시오", Toast.LENGTH_SHORT);
-                        t.show();
+                    DBHelper user = new DBHelper(getApplicationContext());
+                    SQLiteDatabase database = user.getReadableDatabase();
+                    Cursor cursor = user.getReadableDatabase().rawQuery("SELECT user_id FROM USERS",null);
+                    boolean checkDB = false;
+                    while (cursor.moveToNext()){
+                        if (cursor.getString(0).equals(id)){
+                            checkDB = true;
+                            break;
+                        }
                     }
-                    else if (pw == null || pw.equals("")){
-                        Toast t = Toast.makeText(RegisterActivity.this, "비밀번호를 입력하십시오", Toast.LENGTH_SHORT);
-                        t.show();
-                    }else {
+                    if (checkDB) {
+                            Toast t = Toast.makeText(RegisterActivity.this, "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT);
+                            t.show();
+                    }
+                    else{
+                        try{
+                            int p = Integer.parseInt(pnum);
+                        }catch(NumberFormatException nfe){
+                            Toast t = Toast.makeText(RegisterActivity.this, "잘못된 전화번호 형식입니다.", Toast.LENGTH_SHORT);
+                            t.show();
+                            return;
+                        };
+                        int phone = Integer.parseInt(pnum);
                         DBHelper helper = new DBHelper(getApplicationContext());
                         SQLiteDatabase db = helper.getWritableDatabase();
                         db.execSQL("INSERT INTO  USERS"+ " ( " +
-                                "USER_ID, PW, MAIL,JOIN_DATE,GENDER,FAV_GENRE )" +
-                                "VALUES( ?, ?, ?,?,?,? )", new Object[] {id, pw,email,rgst_date,gender,genre});
+                                "USER_ID, PW, NAME, MAIL,JOIN_DATE,GENDER,FAV_GENRE,PHONE )" +
+                                "VALUES( ?, ?, ?,?,?,?,?,? )", new Object[] {id, pw,name, email,rgst_date,gender,genre,phone});
                         Toast t = Toast.makeText(RegisterActivity.this, "가입이 완료되었습니다.",Toast.LENGTH_SHORT);
                         t.show();
                         db.close();
+                        Intent LoginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        RegisterActivity.this.startActivity(LoginIntent);
+
                     }
-                    Intent LoginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    RegisterActivity.this.startActivity(LoginIntent);
-            }}
+                }
+            }
         });
     }
 }
