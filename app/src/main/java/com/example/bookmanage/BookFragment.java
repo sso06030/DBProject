@@ -1,5 +1,7 @@
 package com.example.bookmanage;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 /**
@@ -61,7 +66,7 @@ public class BookFragment extends Fragment {
 
     private ArrayAdapter genreAdapter;
     private Spinner genreSpinner;
-
+    private Button SearchButton;
     private String titleGenre = "";
 
     @Override
@@ -70,20 +75,58 @@ public class BookFragment extends Fragment {
 
         final RadioGroup titleGenreGroup = (RadioGroup) getView().findViewById(R.id.titleGenreGroup);
         genreSpinner = (Spinner) getView().findViewById(R.id.genreSpinner);
+        SearchButton = (Button) getView().findViewById(R.id.searchButton);
+        final EditText titleView = (EditText) getView().findViewById(R.id.searchTitle);
+
 
         titleGenreGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton genreButton = (RadioButton)getView().findViewById(i);
+                RadioButton genreButton = (RadioButton) getView().findViewById(i);
                 titleGenre = genreButton.getText().toString();
+                SearchButton = (Button) getView().findViewById(R.id.searchButton);
 
-                if(titleGenre.equals("장르")) {
+
+                if (titleGenre.equals("장르")) {
+                    titleView.setVisibility(View.GONE);
+                    genreSpinner.setVisibility(View.VISIBLE);
                     genreAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.genre, android.R.layout.simple_spinner_dropdown_item);
                     genreSpinner.setAdapter(genreAdapter);
+                } else {
+                    genreSpinner.setVisibility(View.GONE);
+                    titleView.setVisibility(View.VISIBLE);
                 }
             }
         });
-    }
+
+        SearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBHelper book = new DBHelper(getContext());
+                SQLiteDatabase database = book.getReadableDatabase();
+                String sql;
+
+                if (titleGenre.equals("장르")) {
+                    String search_genre = genreSpinner.getSelectedItem().toString();
+                    sql = "SELECT isbn,title,author,genre,publisher FROM BOOKS WHERE genre='" + search_genre + "'";
+                } else {
+                    String search_title = titleView.getText().toString();
+                    sql = "SELECT isbn,title,author,genre,publisher FROM BOOKS WHERE title='" + search_title + "'";
+                }
+                Cursor cursor = database.rawQuery(sql, null);
+                if (cursor != null && cursor.getCount() != 0) {
+                    for (int i = 0; i < cursor.getCount(); i++) {
+                        final String[] Book_Search = {cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                                cursor.getString(4), cursor.getString(5)};
+                    }
+                } else {
+                    Toast t = Toast.makeText(getContext(), "해당하는 책이 없습니다.", Toast.LENGTH_SHORT);
+                    t.show();
+                    return;
+                }
+            }
+        });
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
