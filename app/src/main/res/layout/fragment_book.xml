@@ -30,37 +30,50 @@
 
     </RadioGroup>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="259dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:gravity="center"
+        android:orientation="horizontal"
         android:paddingRight="10dp">
 
         <Spinner
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/genreSpinner">
+            android:id="@+id/genreSpinner"
+            android:layout_width="153dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_marginRight="10dp">
 
         </Spinner>
 
+        <EditText
+            android:id="@+id/searchTitle"
+            android:layout_width="153dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="제목"
+            android:inputType="textPersonName">
+
+        </EditText>
+
         <Button
+            android:id="@+id/searchButton"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="#ffffff"
+            android:layout_gravity="right"
+            android:layout_marginLeft="10dp"
             android:background="@color/colorPrimary"
             android:text="도서 검색"
-            android:layout_gravity="center"
-            android:id="@+id/searchButton"
-            android:layout_marginLeft="10dp"/>
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,10 +84,9 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/bookListView"
+            android:id="@+id/list"
             android:dividerHeight="10dp"
             android:divider="#ffffff">
-
         </ListView>
     </LinearLayout>
 

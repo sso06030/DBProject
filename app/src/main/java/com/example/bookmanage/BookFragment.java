@@ -7,6 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+
+import java.util.List;
 
 
 /**
@@ -53,6 +62,42 @@ public class BookFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    private ArrayAdapter genreAdapter;
+    private Spinner genre_spinner;
+    private String titleGenre;
+
+    public void onActivityCreated(Bundle b){
+        super.onActivityCreated(b);
+
+        final EditText titleView = (EditText) getView().findViewById(R.id.searchTitle);
+        final Button searchButton = (Button) getView().findViewById(R.id.searchButton);
+        final ListView bookListView = (ListView) getView().findViewById(R.id.list);
+
+        titleView.setVisibility(View.GONE);
+
+        final RadioGroup search_Radio = (RadioGroup)getView().findViewById(R.id.titleGenreGroup);
+        genre_spinner = (Spinner) getView().findViewById(R.id.genreSpinner);
+
+        search_Radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(RadioGroup group,int checked){
+                RadioButton get_titleGenre = (RadioButton) getView().findViewById(checked);
+                titleGenre = get_titleGenre.getText().toString();
+
+                if(titleGenre.equals("장르")){
+                    titleView.setVisibility(View.GONE);
+                    genre_spinner.setVisibility(View.VISIBLE);
+                    genreAdapter = ArrayAdapter.createFromResource(getActivity(),R.array.genre,android.R.layout.simple_spinner_dropdown_item);
+                    genre_spinner.setAdapter(genreAdapter);
+                }else{
+                    genre_spinner.setVisibility(View.GONE);
+                    titleView.setVisibility(View.VISIBLE);
+                }
+            }
+
+    });
     }
 
     @Override
