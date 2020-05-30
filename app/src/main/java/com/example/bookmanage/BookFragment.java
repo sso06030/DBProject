@@ -7,6 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 
 /**
@@ -53,6 +57,32 @@ public class BookFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    private ArrayAdapter genreAdapter;
+    private Spinner genreSpinner;
+
+    private String titleGenre = "";
+
+    @Override
+    public void onActivityCreated(Bundle b) {
+        super.onActivityCreated(b);
+
+        final RadioGroup titleGenreGroup = (RadioGroup) getView().findViewById(R.id.titleGenreGroup);
+        genreSpinner = (Spinner) getView().findViewById(R.id.genreSpinner);
+
+        titleGenreGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton genreButton = (RadioButton)getView().findViewById(i);
+                titleGenre = genreButton.getText().toString();
+
+                if(titleGenre.equals("장르")) {
+                    genreAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.genre, android.R.layout.simple_spinner_dropdown_item);
+                    genreSpinner.setAdapter(genreAdapter);
+                }
+            }
+        });
     }
 
     @Override
