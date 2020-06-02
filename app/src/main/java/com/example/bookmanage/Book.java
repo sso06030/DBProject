@@ -1,7 +1,7 @@
 package com.example.bookmanage;
 
 public class Book {
-    String book_id;
+    int book_id;
     String ISBN;
     String title;
     String author;
@@ -9,9 +9,7 @@ public class Book {
     String publisher;
     int price;
 
-    public void setBook_id(String book_id) {
-        this.book_id = book_id;
-    }
+    public void setBook_id(int book_id) {this.book_id = book_id;}
 
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
@@ -37,13 +35,11 @@ public class Book {
         this.price = price;
     }
 
-    public String getBook_id() {
+    public int getBook_id() {
         return book_id;
     }
 
-    public String getISBN() {
-        return ISBN;
-    }
+    public String getISBN() {return ISBN;}
 
     public String getTitle() {
         return title;
@@ -65,7 +61,7 @@ public class Book {
         return price;
     }
 
-    public Book(String book_id, String ISBN, String title, String author, String genre, String publisher, int price) {
+    public Book(int book_id, String ISBN, String title, String author, String genre, String publisher, int price) {
         this.book_id = book_id;
         this.ISBN = ISBN;
         this.title = title;

@@ -84,10 +84,9 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/list"
+            android:id="@+id/bookListView"
             android:dividerHeight="10dp"
-            android:divider="#ffffff">
-        </ListView>
+            android:divider="#ffffff"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -27,7 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "fav_genre varchar2)";
 
     private static final String BookSQL = "create table BOOKS (" +
-            "book_id varchar2 primary key," +
+            "book_id integer primary key autoincrement," +
             "ISBN varchar2," +
             "title varchar2 ," +
             "author varchar2 ," +

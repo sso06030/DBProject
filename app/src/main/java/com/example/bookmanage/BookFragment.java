@@ -1,5 +1,6 @@
 package com.example.bookmanage;
 
+import android.app.AlertDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,10 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -69,6 +74,10 @@ public class BookFragment extends Fragment {
     private Button SearchButton;
     private String titleGenre = "";
 
+    private ListView bookListView;
+    private BookListAdapter adapter;
+    private List<Book> BookList;
+
     @Override
     public void onActivityCreated(Bundle b) {
         super.onActivityCreated(b);
@@ -85,7 +94,6 @@ public class BookFragment extends Fragment {
                 RadioButton genreButton = (RadioButton) getView().findViewById(i);
                 titleGenre = genreButton.getText().toString();
                 SearchButton = (Button) getView().findViewById(R.id.searchButton);
-
 
                 if (titleGenre.equals("장르")) {
                     titleView.setVisibility(View.GONE);
@@ -106,23 +114,46 @@ public class BookFragment extends Fragment {
                 SQLiteDatabase database = book.getReadableDatabase();
                 String sql;
 
+                bookListView = (ListView)getView().findViewById(R.id.bookListView);
+                BookList = new ArrayList<Book>();
+                adapter = new BookListAdapter(getContext().getApplicationContext(),BookList);
+                bookListView.setAdapter(adapter);
+
+                DBHelper helper = new DBHelper(getContext());
+                SQLiteDatabase db = helper.getReadableDatabase();
+
+                BookList.clear();
                 if (titleGenre.equals("장르")) {
                     String search_genre = genreSpinner.getSelectedItem().toString();
-                    sql = "SELECT isbn,title,author,genre,publisher FROM BOOKS WHERE genre='" + search_genre + "'";
+                    sql = "SELECT book_id,isbn,title,author,genre,publisher,price FROM BOOKS WHERE genre='" + search_genre + "'";
                 } else {
                     String search_title = titleView.getText().toString();
-                    sql = "SELECT isbn,title,author,genre,publisher FROM BOOKS WHERE title='" + search_title + "'";
+                    sql = "SELECT book_id,isbn,title,author,genre,publisher,price FROM BOOKS WHERE title='" + search_title + "'";
                 }
                 Cursor cursor = database.rawQuery(sql, null);
                 if (cursor != null && cursor.getCount() != 0) {
-                    for (int i = 0; i < cursor.getCount(); i++) {
-                        final String[] Book_Search = {cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                                cursor.getString(4), cursor.getString(5)};
+                    while (cursor.moveToNext()) {
+                        int bookId = cursor.getInt(0);
+                        String ISBN = cursor.getString(1);
+                        String title = cursor.getString(2);
+                        String author = cursor.getString(3);
+                        String genre = cursor.getString(4);
+                        String publisher = cursor.getString(5);
+                        int price = cursor.getInt(6);
+
+                        Book book1 = new Book(bookId, ISBN, title, author, genre, publisher, price);
+                        BookList.add(book1);
                     }
-                } else {
-                    Toast t = Toast.makeText(getContext(), "해당하는 책이 없습니다.", Toast.LENGTH_SHORT);
+                    Toast t = Toast.makeText(getContext(), "이건됨",Toast.LENGTH_SHORT);
                     t.show();
-                    return;
+                    adapter.notifyDataSetChanged();
+                } else {
+                    AlertDialog dialog;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(BookFragment.this.getActivity());
+                    dialog = builder.setMessage("조회된 책이 없습니다.")
+                            .setPositiveButton("확인",null)
+                            .create();
+                    dialog.show();
                 }
             }
         });
