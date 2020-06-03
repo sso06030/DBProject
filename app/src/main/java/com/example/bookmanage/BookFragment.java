@@ -4,9 +4,6 @@ import android.app.AlertDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,8 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,9 +142,6 @@ public class BookFragment extends Fragment {
                         Book book1 = new Book(bookId, ISBN, title, author, genre, publisher, price);
                         BookList.add(book1);
                     }
-                    Toast t = Toast.makeText(getContext(), "이건됨",Toast.LENGTH_SHORT);
-                    t.show();
-                    adapter.notifyDataSetChanged();
                 } else {
                     AlertDialog dialog;
                     AlertDialog.Builder builder = new AlertDialog.Builder(BookFragment.this.getActivity());
