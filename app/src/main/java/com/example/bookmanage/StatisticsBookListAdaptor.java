@@ -32,7 +32,7 @@ public class StatisticsBookListAdaptor extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup parent) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
         View v = View.inflate(context, R.layout.book, null);
 
         TextView book_Id = (TextView) v.findViewById(R.id.bookID);

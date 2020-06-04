@@ -35,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "publisher varchar2," +
             "price number)";
 
-    private static final String BurrowSQL = "create table BURROW (" +
+    private static final String BurrowSQL = "create table BORROW (" +
             "rent_num integer primary key autoincrement, " +
             "rent_date date ," +
             "return_date date ," +
