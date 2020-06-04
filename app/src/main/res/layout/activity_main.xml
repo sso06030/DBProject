@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/statisticsButton"
-            android:text="통계"
+            android:text="대여 목록"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:textSize="18dp"

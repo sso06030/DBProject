@@ -9,6 +9,8 @@ public class Book {
     String publisher;
     int price;
 
+
+
     public void setBook_id(int book_id) {this.book_id = book_id;}
 
     public void setISBN(String ISBN) {
@@ -70,4 +72,5 @@ public class Book {
         this.publisher = publisher;
         this.price = price;
     }
+
 }
