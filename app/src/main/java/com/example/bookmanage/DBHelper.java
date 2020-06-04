@@ -35,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "publisher varchar2," +
             "price number)";
 
-    private static final String BurrowSQL = "create table BORROW (" +
+    private static final String BorrowSQL = "create table BORROW (" +
             "rent_num integer primary key autoincrement, " +
             "rent_date date ," +
             "return_date date ," +
@@ -49,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String RentSQL = "create table RENT(" +
             "book_id varchar2 references BOOKS(book_id) on delete cascade,"+
             "user_id varchar2 references USERS(user_id) on delete cascade,"+
-            "rent_num integer references BURROW(rent_num) on delete cascade)";
+            "rent_num integer references BORROW(rent_num) on delete cascade)";
 
     @Override
     public void onConfigure(SQLiteDatabase db) {
@@ -68,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(UserSQL);
         db.execSQL(BookSQL);
-        db.execSQL(BurrowSQL);
+        db.execSQL(BorrowSQL);
         db.execSQL(ExSQL);
         db.execSQL(RentSQL);
     }
@@ -76,7 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table USERS");
         db.execSQL("drop table BookSQL");
-        db.execSQL("drop table BurrowSQL");
+        db.execSQL("drop table BorrowSQL");
         db.execSQL("drop table ExSQL");
         db.execSQL("drop table RentSQL");
 
