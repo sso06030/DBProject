@@ -36,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "price number)";
 
     private static final String BorrowSQL = "create table BORROW (" +
-            "rent_num integer primary key autoincrement, " +
+            "rent_num integer primary key, " +
             "rent_date date ," +
             "return_date date ," +
             "late_fee number)";
@@ -47,9 +47,9 @@ public class DBHelper extends SQLiteOpenHelper {
             "user_id varchar2 references USERS(user_id) on delete no action)";
 
     private static final String RentSQL = "create table RENT(" +
-            "book_id varchar2 references BOOKS(book_id) on delete cascade,"+
-            "user_id varchar2 references USERS(user_id) on delete cascade,"+
-            "rent_num integer references BORROW(rent_num) on delete cascade)";
+            "book_id integer,"+
+            "user_id varchar2,"+
+            "rent_num integer)";
 
     @Override
     public void onConfigure(SQLiteDatabase db) {

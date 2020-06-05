@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id = idText.getText().toString();
+                final String id = idText.getText().toString();
                 String pw = pwText.getText().toString();
 
                 DBHelper user = new DBHelper(getApplicationContext());
@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                 database.close();
 
                 Intent MainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                MainIntent.putExtra("userID",id);
                 LoginActivity.this.startActivity(MainIntent);
             }
         });

@@ -1,5 +1,6 @@
 package com.example.bookmanage;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,11 +20,23 @@ public class MainActivity extends AppCompatActivity {
     private ListView noticeListView;
     private NoticeListAdapter adapter;
     private List<Notice> noticeList;
+    public static String UserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        deleteDatabase("BookManageDB");
+
+        UserID =getIntent().getStringExtra("userID");
+
+        DBHelper dbHelper = new DBHelper(getApplicationContext());
+        SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+//        sqLiteDatabase.execSQL("INSERT INTO  USERS"+ " ( " +
+//                "USER_ID, PW, NAME, MAIL)" +
+//                "VALUES( ?, ?, ?,? )", new Object[] {"Juhee", "wngml","juhe", "maii"});
+//        sqLiteDatabase.execSQL("INSERT INTO BOOKS(ISBN,title,author,genre,publisher,price) VALUES(?,?,?,?,?,?)",new Object[]{"Qddkw2","디비!","어려워","판타지","출판사",1234});
 
         noticeListView = (ListView) findViewById(R.id.noticeListView);
         noticeList = new ArrayList<Notice>();
