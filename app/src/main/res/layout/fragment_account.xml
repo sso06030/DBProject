@@ -81,7 +81,7 @@
                 android:padding="10dp"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
-                android:id="@+id/phoneText"
+                android:id="@+id/mail"
                 android:layout_marginTop="15dp"
                 android:background="@color/colorPrimary"/>
 

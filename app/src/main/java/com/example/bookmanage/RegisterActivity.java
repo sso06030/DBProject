@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText pwView = (EditText) findViewById(R.id.passwordText);
         final EditText nameView = (EditText) findViewById(R.id.nameText);
         final EditText emailView = (EditText) findViewById(R.id.emailText);
-        final EditText pnumView = (EditText) findViewById(R.id.phoneText);
+        final EditText pnumView = (EditText) findViewById(R.id.mail);
         final RadioGroup rg = (RadioGroup) findViewById(R.id.genderGroup);
         final Spinner genre_spinner = (Spinner) findViewById(R.id.genreSpinner);
 

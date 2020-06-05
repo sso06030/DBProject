@@ -44,7 +44,7 @@ public class BookListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
-        View v = View.inflate(context, R.layout.book, null);
+        final View v = View.inflate(context, R.layout.book, null);
 
         final TextView book_Id = (TextView) v.findViewById(R.id.bookID);
         TextView ISBN = (TextView) v.findViewById(R.id.bookISBN);
@@ -69,6 +69,11 @@ public class BookListAdapter extends BaseAdapter {
         final int bookId = bookList.get(i).getBook_id();
         String sql = "SELECT rent_num FROM RENT WHERE book_id = " +bookId;
         Cursor cursor = database.rawQuery(sql,null);
+        final String userID = MainActivity.UserID;
+        sql = "SELECT rent_num FROM USERS WHERE user_id='" + userID +"'";
+        final Cursor rent = database.rawQuery(sql,null);
+        rent.moveToNext();
+        final int Rent_num = rent.getInt(0);
 
         final Button rentButton = (Button) v.findViewById(R.id.rentButton);
         if (cursor.getCount() != 0) {
@@ -80,8 +85,7 @@ public class BookListAdapter extends BaseAdapter {
             rentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) { SQLiteDatabase db = dbHelper.getWritableDatabase();
-                    String userID = MainActivity.UserID;
-
+                    if (Rent_num < 5) {
                     Long now = System.currentTimeMillis();
                     Date date = new Date(now);
                     Calendar cal = Calendar.getInstance();
@@ -95,23 +99,26 @@ public class BookListAdapter extends BaseAdapter {
                     db.execSQL("INSERT INTO BORROW (RENT_NUM,RENT_DATE,RETURN_DATE)" + "VALUES(?,?,?)",new Object[]{RentNum,simpleDateFormat.format(date),simpleDateFormat.format(cal.getTime())});
                     db.execSQL("INSERT INTO RENT(book_id,user_id,rent_num) VALUES(?,?,?)",new Object[]{bookId,userID,RentNum});
 
-//                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                    builder.setTitle("대여가 완료되었습니다.");
-//                    builder.setMessage("반납일은 "+simpleDateFormat.format(cal.getTime())+"입니다.");
-//                    builder.setPositiveButton("확인",
-//                            new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//
-//                                }
-//                            });
-//                    builder.show();
                     Toast t = Toast.makeText(context,"반납일은 "+simpleDateFormat.format(cal.getTime())+"입니다.",Toast.LENGTH_SHORT);
                     t.show();
+                    int set_num;
+                    if (Rent_num == 0) {
+                        set_num =1;
+                    }else{
+                        set_num = Rent_num+1;
+                    }
+                    String sqlupdate = "UPDATE USERS SET rent_num='"+set_num+"'WHERE user_id ='"+userID+"'";
+                    db.execSQL(sqlupdate);
 
                     rentButton.setBackgroundColor(Color.GRAY);
                     rentButton.setText("대여중");
-                    rentButton.setEnabled(false);;  }
+                    rentButton.setEnabled(false);
+                    }
+                    else{
+                        Toast t = Toast.makeText(context,"현재 5권 이상 대여중이므로 추가로 대여 불가능합니다.",Toast.LENGTH_LONG);
+                        t.show();
+            }
+                }
             });
 
         }
