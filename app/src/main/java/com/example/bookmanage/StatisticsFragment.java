@@ -1,5 +1,7 @@
 package com.example.bookmanage;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -55,6 +62,48 @@ public class StatisticsFragment extends Fragment {
         }
     }
 
+    private ListView statisticsView;
+    private StaticListAdapter adapter;
+    private List<Statistic> statisticList;
+
+    @Override
+    public void onActivityCreated(Bundle b) {
+        super.onActivityCreated(b);
+        String UserID = MainActivity.UserID;
+
+        TextView totalrentNum = (TextView)getView().findViewById(R.id.totalBookNum);
+
+        DBHelper dbHelper = new DBHelper(getActivity());
+        SQLiteDatabase database = dbHelper.getReadableDatabase();
+        Cursor cursor =  database.rawQuery("SELECT rent_num FROM USERS WHERE user_id='" + UserID +"'",null);
+        cursor.moveToNext();
+        int book_num = cursor.getInt(0);
+
+        totalrentNum.setText(Integer.toString(book_num)+"권");
+        statisticsView = (ListView) getView().findViewById(R.id.rentListView);
+        statisticList = new ArrayList<Statistic>();
+        adapter = new StaticListAdapter(getContext().getApplicationContext(),statisticList);
+        statisticsView.setAdapter(adapter);
+
+        statisticList.clear();
+
+        cursor = database.rawQuery("SELECT BORROW.rent_date,BORROW.return_date,RENT.book_id,RENT.rent_num FROM Borrow NATURAL JOIN RENT WHERE RENT.user_id='"+ UserID +"'",null);
+
+        while(cursor.moveToNext()){
+            String rent_date = cursor.getString(0);
+            String return_date = cursor.getString(1);
+            String book_id = cursor.getString(2);
+            int rent_num = cursor.getInt(3);
+
+            Cursor cursor1 = database.rawQuery("SELECT title,author FROM BOOKS WHERE book_id='"+book_id+"'",null);
+            cursor1.moveToNext();
+            String Title = cursor1.getString(0);
+            String Author = cursor1.getString(1);
+
+            Statistic statistic = new Statistic(Author,Title,rent_date,return_date,rent_num);
+            statisticList.add(statistic);
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

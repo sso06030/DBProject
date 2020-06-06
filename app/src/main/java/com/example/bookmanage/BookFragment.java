@@ -112,7 +112,7 @@ public class BookFragment extends Fragment {
                 SQLiteDatabase database = book.getReadableDatabase();
                 String sql;
 
-                bookListView = (ListView)getView().findViewById(R.id.bookListView);
+                bookListView = (ListView)getView().findViewById(R.id.rentListView);
                 BookList = new ArrayList<Book>();
                 adapter = new BookListAdapter(getContext().getApplicationContext(),BookList);
                 bookListView.setAdapter(adapter);

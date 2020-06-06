@@ -84,7 +84,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/bookListView"
+            android:id="@+id/rentListView"
             android:dividerHeight="10dp"
             android:divider="#ffffff"
             android:padding="5dp"/>
