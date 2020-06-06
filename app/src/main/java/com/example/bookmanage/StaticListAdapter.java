@@ -87,7 +87,7 @@ public class StaticListAdapter extends BaseAdapter {
                 returnButton.setText("반납됨");
                 returnButton.setClickable(false);
 //
-                rentNum.setText(Integer.toString(book_num));
+//                rentNum.setText(Integer.toString(book_num));
             }
         });
 
